@@ -14,7 +14,7 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
     Map<UUID, Customer> map;
 
-    public CustomerServiceImpl(Map<UUID, Customer> map) {
+    public CustomerServiceImpl() {
         this.map = new HashMap<>();
         Customer customer = Customer.builder()
                 .customerName("John Thompson")
