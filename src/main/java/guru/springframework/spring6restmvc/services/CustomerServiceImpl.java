@@ -74,6 +74,5 @@ public class CustomerServiceImpl implements CustomerService {
         savedCustomer.setCustomerName(customer.getCustomerName());
         savedCustomer.setVersion(customer.getVersion());
         savedCustomer.setLastModifiedDate(new Date());
-        map.put(uuid, savedCustomer);
     }
 }
