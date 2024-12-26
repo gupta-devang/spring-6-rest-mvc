@@ -3,12 +3,12 @@ package guru.springframework.spring6restmvc.services;
 import guru.springframework.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -65,5 +65,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         map.put(customer1.getId(), customer1);
         return customer1;
+    }
+
+    @Override
+    public void updateCustomer(UUID uuid, Customer customer) {
+        Optional<Customer> customerOptional = Optional.ofNullable(map.get(uuid));
+        Customer savedCustomer = customerOptional.orElseThrow();
+        savedCustomer.setCustomerName(customer.getCustomerName());
+        savedCustomer.setVersion(customer.getVersion());
+        savedCustomer.setLastModifiedDate(new Date());
+        map.put(uuid, savedCustomer);
     }
 }
