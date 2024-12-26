@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -86,5 +87,18 @@ public class BeerServiceImpl implements BeerService {
         beerMap.put(savedBeer.getId(), savedBeer);
         return savedBeer;
 
+    }
+
+    @Override
+    public void updateBeerById(UUID beerId, Beer beer) {
+        Optional<Beer> beer1 = Optional.ofNullable(beerMap.get(beerId));
+        Beer beer2 = beer1.orElseThrow(RuntimeException::new);
+        beer2.setBeerName(beer.getBeerName());
+        beer2.setBeerStyle(beer.getBeerStyle());
+        beer2.setPrice(beer.getPrice());
+        beer2.setUpc(beer.getUpc());
+        beer2.setQuantityOnHand(beer.getQuantityOnHand());
+        beer2.setUpdateDate(LocalDateTime.now());
+        beerMap.put(beerId, beer2);
     }
 }
