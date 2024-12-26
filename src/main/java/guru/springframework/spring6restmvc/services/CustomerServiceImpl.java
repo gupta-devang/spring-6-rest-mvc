@@ -3,6 +3,7 @@ package guru.springframework.spring6restmvc.services;
 import guru.springframework.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,4 +53,17 @@ public class CustomerServiceImpl implements CustomerService {
         return new ArrayList<>(map.values());
     }
 
+    @Override
+    public Customer saveNewCustomer(Customer customer) {
+        Customer customer1 = Customer.builder()
+                .customerName(customer.getCustomerName())
+                .version(customer.getVersion())
+                .lastModifiedDate(new Date())
+                .createdDate(new Date())
+                .id(UUID.randomUUID())
+                .build();
+
+        map.put(customer1.getId(), customer1);
+        return customer1;
+    }
 }
