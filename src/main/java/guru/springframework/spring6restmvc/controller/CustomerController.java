@@ -4,6 +4,7 @@ import guru.springframework.spring6restmvc.model.Customer;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,31 +23,40 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerService customerService;
+  private final CustomerService customerService;
 
-    @PutMapping("/{uuid}")
-    public ResponseEntity<Void> updateCustomer(@PathVariable UUID uuid, @RequestBody Customer customer) {
-        customerService.updateCustomer(uuid, customer);
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/{uuid}")
+  public ResponseEntity<Void> deleteCustomerById(@PathVariable UUID uuid) {
+    customerService.deleteCustomerById(uuid);
+    return ResponseEntity.noContent().build();
+  }
 
-    @PostMapping
-    public ResponseEntity<Void> saveNewCustomer(@RequestBody Customer customer, UriComponentsBuilder uriComponentsBuilder) {
-        Customer savedNewCustomer = customerService.saveNewCustomer(customer);
-        URI uri = uriComponentsBuilder.path("/api/v1/customer/{id}")
-                .buildAndExpand(savedNewCustomer.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
+  @PutMapping("/{uuid}")
+  public ResponseEntity<Void> updateCustomer(
+      @PathVariable UUID uuid, @RequestBody Customer customer) {
+    customerService.updateCustomer(uuid, customer);
+    return ResponseEntity.noContent().build();
+  }
 
-    }
+  @PostMapping
+  public ResponseEntity<Void> saveNewCustomer(
+      @RequestBody Customer customer, UriComponentsBuilder uriComponentsBuilder) {
+    Customer savedNewCustomer = customerService.saveNewCustomer(customer);
+    URI uri =
+        uriComponentsBuilder
+            .path("/api/v1/customer/{id}")
+            .buildAndExpand(savedNewCustomer.getId())
+            .toUri();
+    return ResponseEntity.created(uri).build();
+  }
 
-    @GetMapping
-    public List<Customer> listCustomers() {
-        return customerService.listCustomers();
-    }
+  @GetMapping
+  public List<Customer> listCustomers() {
+    return customerService.listCustomers();
+  }
 
-    @GetMapping("/{customerId}")
-    public Customer getCustomerById(@PathVariable UUID customerId) {
-        return customerService.getCustomerById(customerId);
-    }
+  @GetMapping("/{customerId}")
+  public Customer getCustomerById(@PathVariable UUID customerId) {
+    return customerService.getCustomerById(customerId);
+  }
 }
