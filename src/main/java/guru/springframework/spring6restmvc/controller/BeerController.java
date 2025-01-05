@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +25,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/api/v1/beer")
 public class BeerController {
   private final BeerService beerService;
+
+  @PatchMapping("/{uuid}")
+  public ResponseEntity<Void> patchBeer(@PathVariable UUID uuid, @RequestBody Beer beer) {
+    beerService.patchBeerById(uuid, beer);
+    return ResponseEntity.noContent().build();
+  }
 
   @DeleteMapping("/{uuid}")
   public ResponseEntity<Void> deleteById(@PathVariable UUID uuid) {
